@@ -1,0 +1,28 @@
+/* Style goes here */
+ul {
+   padding: 0px;
+   list-style: none;
+}
+li {
+    padding: 1px 0px;
+}
+li .btn {
+    margin-top: -6px;
+}
+.popover {
+    width: 250px !important;
+    left: 70px !important;
+    padding-bottom: 10px !important;
+} 
+.popover > .arrow {
+    left: 18% !important;
+}
+.tab-content {
+    padding-top: 25px;
+}
+.seperator {
+    height: 1px;
+    margin: 20px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}

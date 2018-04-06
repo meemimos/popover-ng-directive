@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html ng-app="dropdownApp">
+    <head>
+        <meta charset="utf-8" />
+        <title>Angular|Bootstrap - Popover</title>
+        <link rel="stylesheet" href="https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+        <script src="js/dropdown-controller.js"></script>
+    </head>
+
+  <body class="container" ng-controller="dropdownController as vm">
+    <h2>Angular|Bootstrap - Popover</h2>
+    <hr>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#angular" aria-controls="angular" role="tab" data-toggle="tab">Angular Directive</a>
+        </li>
+        <li role="presentation">
+            <a href="#bootstrap" aria-controls="bootstrap" role="tab" data-toggle="tab">Bootstrap Component</a>
+        </li>
+    </ul>
+    
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane" id="bootstrap">
+            <button type="button" class="btn btn-default btn-popover" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
+            data-content='
+            <div class="pop-content">
+                <h4>Room 1:</h4>
+                <ul>
+                    <li>
+                        <h5>2 Adults
+                            <small class="text-muted"> Above 12 years</small>
+                            <button class="btn btn-default btn-sm pull-right">+</button>
+                            <button class="btn btn-default btn-sm pull-right">-</button>
+                        </h5>
+                        <hr class="seperator">
+                    </li>
+                    <li>
+                        <h5>2 Childs
+                            <small class="text-muted"> Below 12 years</small>
+                            <button class="btn btn-default btn-sm pull-right">+</button>
+                            <button class="btn btn-default btn-sm pull-right">-</button>
+                        </h5>
+                        <hr class="seperator">
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-success btn-sm pull-right">Done</button>
+            <button class="btn btn-primary btn-sm pull-left">Add Room</button>
+            '
+            >
+                4 People in 1 Room
+            </button>
+        </div>
+        <div role="tabpanel" class="tab-pane active" id="angular">
+            <a popover
+            type="button"
+            class="btn btn-default btn-popover"
+            data-toggle="popover"
+            data-placement="bottom"
+            data-html="true">
+                {{vm.totalPeople}} People<span ng-show="vm.totalPeople > 1">s</span> in {{vm.totalRoom}} Room<span ng-show="vm.totalRoom > 1">s</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script type="text/ng-template" id="popover-content">
+        <div class="pop-content">
+            <h4>Room 1:</h4>
+            <ul>
+                <li ng-repeat="option in vm.options">
+                    <h5>{{option.count}} {{option.name}}<span ng-show="option.count > 1">s</span>
+                        <small class="text-muted"> {{option.name == "Adult" ? "Above" : "Below"}} {{option.age}} years</small>
+                        <button class="btn btn-default btn-sm pull-right" ng-click="vm.increaseCount(option.id)">+</button>
+                        <button class="btn btn-default btn-sm pull-right" ng-click="vm.decreaseCount(option.id)" ng-disabled="option.count <= 0">-</button>
+                    </h5>
+                    <hr class="seperator">
+                </li>
+            </ul>
+        </div>
+        <button class="btn btn-success btn-sm pull-right">Done</button>
+        <button class="btn btn-primary btn-sm pull-left">Add Room</button>
+    </script>
+
+    <script>
+        // Enabling popover - not required for angular directives
+        $(function () {
+        $('[data-toggle="popover"]').popover()
+        })
+
+    </script>
+  </body>
+
+</html>
