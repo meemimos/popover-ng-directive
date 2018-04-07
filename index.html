@@ -5,6 +5,8 @@
         <title>Angular|Bootstrap - Popover</title>
         <link rel="stylesheet" href="https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
@@ -27,40 +29,45 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane" id="bootstrap">
-            <button type="button" class="btn btn-default btn-popover" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
-            data-content='
-            <div class="pop-content">
-                <h4>Room 1:</h4>
-                <ul>
-                    <li>
-                        <h5>2 Adults
-                            <small class="text-muted"> Above 12 years</small>
-                            <button class="btn btn-default btn-sm pull-right">+</button>
-                            <button class="btn btn-default btn-sm pull-right">-</button>
-                        </h5>
-                        <hr class="seperator">
-                    </li>
-                    <li>
-                        <h5>2 Childs
-                            <small class="text-muted"> Below 12 years</small>
-                            <button class="btn btn-default btn-sm pull-right">+</button>
-                            <button class="btn btn-default btn-sm pull-right">-</button>
-                        </h5>
-                        <hr class="seperator">
-                    </li>
-                </ul>
+            <p id="spinner" style="margin-left: 70px;"><i class="fa fa-spinner fa-spin"></i></p>
+            <div class="btn-pop">
+                <button type="button" class="btn btn-default btn-popover" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
+                data-content='
+                <p class="spinner" style="margin-left: 100px; margin-top: 22px;"><i class="fa fa-spinner fa-spin"></i></p>            
+                <div class="pop-content">
+                    <h4>Room 1:</h4>
+                    <ul>
+                        <li id="adult">
+                            <h5><span id="adult-count"></span> <span id="adult-name"></span>
+                                <small class="text-muted"> Above <span id="adult-age"></span> years</small>
+                                <button id="1" class="btn btn-default btn-sm pull-right btn-inc-adult" onclick="increaseCount(this.id)">+</button>
+                                <button id="1" class="btn btn-default btn-sm pull-right btn-dec-adult" onclick="decreaseCount(this.id)">-</button>
+                            </h5>
+                            <hr class="seperator">
+                        </li>
+                        <li id="child">
+                            <h5><span id="child-count"></span> <span id="child-name"></span>
+                                <small class="text-muted"> Below <span id="child-age"></span> years</small>
+                                <button id="2" class="btn btn-default btn-sm pull-right btn-inc-child" onclick="increaseCount(this.id)">+</button>
+                                <button id="2" class="btn btn-default btn-sm pull-right btn-dec-child" onclick="decreaseCount(this.id)">-</button>
+                            </h5>
+                            <hr class="seperator">
+                        </li>
+                    </ul>
+                    <button class="btn btn-success btn-sm pull-right">Done</button>
+                    <button class="btn btn-primary btn-sm pull-left">Add Room</button>
+                </div>
+                '
+                >
+                    <span id="total-people"></span> in <span id="total-room"></span>
+                </button>
             </div>
-            <button class="btn btn-success btn-sm pull-right">Done</button>
-            <button class="btn btn-primary btn-sm pull-left">Add Room</button>
-            '
-            >
-                4 People in 1 Room
-            </button>
+            
         </div>
         <div role="tabpanel" class="tab-pane active" id="angular">
             <a popover
             type="button"
-            class="btn btn-default btn-popover"
+            class="btn btn-default"
             data-toggle="popover"
             data-placement="bottom"
             data-html="true">
@@ -71,7 +78,7 @@
     
     <!-- JavaScript -->
     <script type="text/ng-template" id="popover-content">
-        <div class="pop-content">
+        <div class="">
             <h4>Room 1:</h4>
             <ul>
                 <li ng-repeat="option in vm.options">
@@ -89,9 +96,110 @@
     </script>
 
     <script>
+
+        // declaring variables
+        var totalRoom = 1;
+        var options = [
+            {
+                id: 1,
+                name: "Adult",
+                age: "12",
+                count: 2
+            },
+            {
+                id: 2,
+                name: "Child",
+                age: "12",
+                count: 1
+            }
+        ]
+
+        totalPeople = countTotalPeople();
+        
+        // total people count
+        function countTotalPeople () {
+            var count = 0;
+
+            for (i = 0; i < options.length; i++) {
+                count = count + options[i].count;
+            }
+            return count;
+        }
+
+        // increase count by id
+        increaseCount = function (id) {
+            options[id-1].count++;
+            totalPeople++;
+            RenderHtml();
+        }
+
+        // decrease count by id
+        decreaseCount = function (id) {
+            options[id-1].count--;
+            totalPeople--;
+            RenderHtml();
+        }
+
+        // loading
+        $('.btn-popover').hide();
+        $('#spinner').show();
+
+        // initial rendering
+        setTimeout(() => {
+            RenderHtml();
+            $('.btn-popover').show();            
+            $('#spinner').hide();
+        }, 5000);
+
+        $('.btn-pop').on('click', function() {
+            $('.pop-content').hide();
+            $('.spinner').show();
+            setTimeout(() => {
+                RenderHtml();            
+                $('.pop-content').show();            
+                $('.spinner').hide();
+            }, 2000);
+        })
+
+        function RenderHtml() {
+            // html elements that needs to render
+            var $adultCount = $('#adult-count');
+            var $adultName = $('#adult-name');
+            var $adultAge = $('#adult-age');
+            var $childCount = $('#child-count');        
+            var $childName = $('#child-name');
+            var $childAge = $('#child-age');
+            
+            var $totalPeople = $('#total-people');
+            var $totalRoom = $('#total-room');
+
+            $adultCount.html(options[0].count);
+            $adultName.html(options[0].count > 1 ? options[0].name + "s" : options[0].name);
+
+            $childCount.html(options[1].count);
+            $childName.html(options[1].count > 1 ? options[1].name + "s" : options[1].name);
+
+            $totalPeople.html(totalPeople > 1 ? totalPeople + " Peoples" : totalPeople + " People");
+            $totalRoom.html(totalRoom > 1 ? totalRoom + " Rooms" : totalRoom + " Room");
+
+            // disable [-] button after count less than 1
+            if(options[0].count < 1) {
+                $('.btn-dec-adult').attr("disabled", "disabled");
+            } else {
+                $('.btn-dec-adult').removeAttr("disabled");
+            }
+
+            if(options[1].count < 1) {
+                $('.btn-dec-child').attr("disabled", "disabled");
+            } else {
+                $('.btn-dec-child').removeAttr("disabled");                
+            }
+        }
+            
+            
         // Enabling popover - not required for angular directives
         $(function () {
-        $('[data-toggle="popover"]').popover()
+            $('[data-toggle="popover"]').popover()
         })
 
     </script>
