@@ -149,7 +149,7 @@
             RenderHtml();
             $('.btn-popover').show();            
             $('#spinner').hide();
-        }, 5000);
+        }, 4000);
 
         $('.btn-pop').on('click', function() {
             $('.pop-content').hide();
@@ -158,7 +158,7 @@
                 RenderHtml();            
                 $('.pop-content').show();            
                 $('.spinner').hide();
-            }, 2000);
+            }, 1000);
         })
 
         function RenderHtml() {
@@ -175,9 +175,11 @@
 
             $adultCount.html(options[0].count);
             $adultName.html(options[0].count > 1 ? options[0].name + "s" : options[0].name);
+            $adultAge.html(options[0].age);
 
             $childCount.html(options[1].count);
             $childName.html(options[1].count > 1 ? options[1].name + "s" : options[1].name);
+            $childAge.html(options[1].age);
 
             $totalPeople.html(totalPeople > 1 ? totalPeople + " Peoples" : totalPeople + " People");
             $totalRoom.html(totalRoom > 1 ? totalRoom + " Rooms" : totalRoom + " Room");
@@ -196,7 +198,7 @@
             }
         }
             
-            
+
         // Enabling popover - not required for angular directives
         $(function () {
             $('[data-toggle="popover"]').popover()
