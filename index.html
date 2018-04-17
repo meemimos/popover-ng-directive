@@ -62,7 +62,6 @@
                     <span id="total-people"></span> in <span id="total-room"></span>
                 </button>
             </div>
-            
         </div>
         <div role="tabpanel" class="tab-pane active" id="angular">
             <a popover
@@ -73,6 +72,25 @@
             data-html="true">
                 {{vm.totalPeople}} People<span ng-show="vm.totalPeople > 1">s</span> in {{vm.totalRoom}} Room<span ng-show="vm.totalRoom > 1">s</span>
             </a>
+
+            <div class="sum-section">
+                <h2>Sum</h2>
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input class="form-control" type="number" placeholder="Cost $" ng-model="vm.cost" ng-change="vm.calculate()" />
+                        <br />
+                        <input class="form-control" type="number" placeholder="Tax %" ng-model="vm.taxRate" ng-change="vm.calculate()" />
+                        <br />
+                        <input class="form-control" type="number" placeholder="Tax $" ng-model="vm.taxAmount" disabled />
+                        <br />
+                        <input class="form-control" type="number" placeholder="Total Cost $" ng-value="vm.totalCost" disabled />  
+                        <span>Tax Amount: {{vm.taxAmount}}, Total Cost: {{vm.totalCost}}</span>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
     

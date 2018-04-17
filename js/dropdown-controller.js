@@ -3,6 +3,17 @@ var app = angular.module('dropdownApp', []);
 
 app.controller('dropdownController', function($scope) {
   var vm = this;
+
+  vm.cost = 100;
+  vm.taxRate = 5;
+  vm.taxAmount = (vm.taxRate/100)*vm.cost;
+  vm.totalCost = vm.cost + vm.taxAmount;
+
+  vm.calculate = function() {
+    vm.taxAmount = (vm.taxRate/100)*vm.cost;
+    vm.totalCost = vm.cost + vm.taxAmount;
+  }
+
   vm.totalRoom = 1;
   vm.options = [
       {
